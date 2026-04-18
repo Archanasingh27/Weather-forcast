@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body id="body" class="bg-blue-100 min-h-screen flex flex-col items-center p-4 transition-all duration-500">
+
+  <!-- Title -->
+  <h1 class="text-3xl font-bold mb-4">🌤 Weather App</h1>
+
+  <!-- Search Section -->
+  <div class="w-full max-w-md">
+    <div class="flex gap-2">
+      <input id="cityInput" type="text" placeholder="Enter city..."
+        class="w-full p-2 rounded border outline-none"/>
+
+      <button id="searchBtn"
+        class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+    </div>
+
+    <!-- Dropdown -->
+    <select id="recentCities"
+      class="mt-2 w-full p-2 border rounded hidden"></select>
+
+    <!-- Error -->
+    <div id="errorBox"
+      class="text-red-500 mt-2 hidden"></div>
+  </div>
+
+  <!-- Current Weather -->
+  <div id="weatherCard"
+    class="mt-6 bg-white shadow-lg rounded-lg p-4 w-full max-w-md hidden">
+
+    <h2 id="cityName" class="text-xl font-bold"></h2>
+    <p id="temp" class="text-3xl"></p>
+    <p id="condition"></p>
+    <p id="humidity"></p>
+    <p id="wind"></p>
+
+    <!-- Toggle -->
+    <button id="toggleTemp"
+      class="mt-2 bg-gray-200 px-2 py-1 rounded">Toggle °C/°F</button>
+
+    <!-- Alert -->
+    <p id="alertBox" class="mt-2 text-red-600 font-bold hidden"></p>
+  </div>
+
+  <!-- Forecast -->
+  <div id="forecast"
+    class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full max-w-5xl">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
