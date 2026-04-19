@@ -95,7 +95,18 @@ function displayWeather(data) {
   document.getElementById("pressure").innerText = `${data.main.pressure} hPa`;
   document.getElementById("visibility").innerText = `${data.visibility / 1000} km`;
 
+  // EXTREME TEMP ALERT
+  if (data.main.temp > 40) {
+    showError(" Extreme heat alert! Stay hydrated");
+  }
 
+  // ICON
+  const icon = data.weather[0].icon;
+  document.getElementById("weatherIcon").src =
+    `https://openweathermap.org/img/wn/${icon}@4x.png`;
+
+  
+}
 
 
 
