@@ -279,3 +279,20 @@ document.addEventListener("click", (e) => {
 
 
 
+// geolocation
+
+navigator.geolocation.getCurrentPosition(async (pos) => {
+  const { latitude, longitude } = pos.coords;
+
+  const res = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
+  );
+
+  const data = await res.json();
+
+  displayWeather(data);
+  getForecast(data.name);
+});
+
+// INIT
+loadCities();
