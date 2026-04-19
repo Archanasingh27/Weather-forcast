@@ -73,5 +73,30 @@ async function getWeather(city) {
 }
 
 
+//  DISPLAY WEATHER
+
+function displayWeather(data) {
+  currentTemp = data.main.temp;
+
+  document.getElementById("cityName").innerText = data.name;
+
+  document.getElementById("temp").innerText =
+    `${currentTemp.toFixed(1)}°C`;
+
+  document.getElementById("condition").innerText =
+    data.weather[0].description;
+
+  document.getElementById("high").innerText = data.main.temp_max;
+  document.getElementById("low").innerText = data.main.temp_min;
+  document.getElementById("feels").innerText = data.main.feels_like;
+
+  document.getElementById("wind").innerText = `${data.wind.speed} km/h`;
+  document.getElementById("humidity").innerText = `${data.main.humidity}%`;
+  document.getElementById("pressure").innerText = `${data.main.pressure} hPa`;
+  document.getElementById("visibility").innerText = `${data.visibility / 1000} km`;
+
+
+
+
 
 
