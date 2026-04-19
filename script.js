@@ -122,6 +122,62 @@ function displayWeather(data) {
   
 }
 
+// 5-days forecast functionality
+
+async function getForecast(city) {
+  try {
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
+    );
+
+    const data = await res.json();
+
+    if (!data.list) {
+      showError("Forecast not available");
+      return;
+    }
+
+    displayForecast(data.list);
+
+  } catch {
+    showError("⚠️ Forecast error");
+  }
+}
+
+function displayForecast(list) {
+  forecastContainer.innerHTML = "";
+
+  for (let i = 0; i < list.length; i += 8) {
+    const item = list[i];
+
+    const icon = item.weather[0].icon;
+
+    const div = document.createElement("div");
+    div.className = "flex justify-between items-center glass p-3";
+
+    div.innerHTML = `
+      <div>
+        <p class="text-sm">
+          ${new Date(item.dt_txt).toDateString().slice(0, 10)}
+        </p>
+        <p class="text-xs opacity-70">
+          ${item.weather[0].main}
+        </p>
+      </div>
+
+      <img 
+        src="https://openweathermap.org/img/wn/${icon}@2x.png"
+        class="w-10 h-10"
+      />
+
+      <p class="text-lg font-semibold">
+        ${item.main.temp.toFixed(1)}°
+      </p>
+    `;
+
+    forecastContainer.appendChild(div);
+  }
+}
 
 
 
