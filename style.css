@@ -1,0 +1,101 @@
+ body {
+     background: linear-gradient(135deg, #0f2b3d 0%, #1b4a6e 40%, #6b4e71 70%, #d97a3c 100%);
+     background-attachment: fixed;
+     min-height: 100vh;
+ }
+
+ /* Glassmorphism effect - enhanced for readability */
+ .glass {
+     background: rgba(16, 29, 41, 0.45);
+     backdrop-filter: blur(16px);
+     -webkit-backdrop-filter: blur(16px);
+     border-radius: 28px;
+     border: 1px solid rgba(255, 255, 255, 0.25);
+     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+     transition: transform 0.2s ease, background 0.3s ease;
+ }
+
+ .glass:hover {
+     background: rgba(20, 35, 50, 0.55);
+     border-color: rgba(255, 255, 255, 0.35);
+ }
+
+ /* Floating animation for weather icon */
+ @keyframes float {
+     0% {
+         transform: translateY(0px);
+     }
+
+     50% {
+         transform: translateY(-12px);
+     }
+
+     100% {
+         transform: translateY(0px);
+     }
+ }
+
+ .float-icon {
+     animation: float 4s ease-in-out infinite;
+     filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.3));
+ }
+
+ /* Recent cities list styling */
+ #recentCities li {
+     padding: 12px 16px;
+     cursor: pointer;
+     transition: all 0.2s ease;
+     border-radius: 20px;
+     margin: 4px 6px;
+     font-weight: 500;
+     letter-spacing: 0.3px;
+ }
+
+ #recentCities li:hover {
+     background: rgba(255, 255, 255, 0.25);
+     transform: translateX(6px);
+ }
+
+ /* Custom scrollbar for forecast & dropdown */
+ #forecastList::-webkit-scrollbar {
+     width: 4px;
+ }
+
+ #forecastList::-webkit-scrollbar-track {
+     background: rgba(255, 255, 255, 0.1);
+     border-radius: 10px;
+ }
+
+ #forecastList::-webkit-scrollbar-thumb {
+     background: rgba(255, 255, 255, 0.5);
+     border-radius: 10px;
+ }
+
+ 
+
+ /* Dropdown  */
+ #dropdownContainer {
+     transition: opacity 0.2s;
+ }
+
+ /* loading spinner */
+ .loader {
+     display: inline-block;
+     width: 24px;
+     height: 24px;
+     border: 3px solid rgba(255, 255, 255, 0.3);
+     border-radius: 50%;
+     border-top-color: white;
+     animation: spin 0.8s linear infinite;
+ }
+
+ @keyframes spin {
+     to {
+         transform: rotate(360deg);
+     }
+ }
+
+ input::placeholder {
+     color: rgba(255, 255, 255, 0.7);
+     font-weight: 300;
+ }
