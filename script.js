@@ -211,5 +211,71 @@ function hideError() {
 
 
 
+// dropdown functionality
+function saveCity(city) {
+  let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+  if (!cities.includes(city)) {
+    cities.unshift(city);
+    localStorage.setItem("cities", JSON.stringify(cities.slice(0, 5)));
+  }
+
+  loadCities();
+}
+
+function loadCities() {
+  let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+  if (!recentCitiesList) return;
+   
+  if (cities.length === 0) {
+    dropdownContainer.classList.add("hidden");
+    recentBtn.classList.add("hidden");   
+    return;
+  }
+
+  recentBtn.classList.remove("hidden"); 
+
+  recentCitiesList.innerHTML = "";
+
+  cities.forEach(city => {
+    const li = document.createElement("li");
+
+    li.className = "p-2 hover:bg-white/20 cursor-pointer";
+    li.innerText = city;
+
+    li.addEventListener("click", () => {
+      cityInput.value = city;
+      getWeather(city);
+      getForecast(city);
+      dropdownContainer.classList.add("hidden");
+    });
+
+    recentCitiesList.appendChild(li);
+  });
+}
+
+recentBtn.addEventListener("click", () => {
+  let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+  if (cities.length === 0) return;
+    loadCities();
+  dropdownContainer.classList.toggle("hidden");
+});
+
+//show
+cityInput.addEventListener("focus", loadCities);
+
+//hide
+document.addEventListener("click", (e) => {
+  if (
+  !e.target.closest("#cityInput") &&
+  !e.target.closest("#dropdownContainer") &&
+  !e.target.closest("#recentBtn")
+) {
+  dropdownContainer.classList.add("hidden");
+  }
+});
+
 
 
