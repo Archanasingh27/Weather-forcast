@@ -1,59 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather App</title>
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: linear-gradient(180deg, #1e3c72, #8e689c, #e39241);
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(-50%) translateY(0px); }
+      50%  { transform: translateY(-50%) translateY(-15px); }
+      100% { transform: translateY(-50%) translateY(0px); }
+    }
+
+    .float-icon {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
 </head>
 
-<body id="body" class="bg-blue-100 min-h-screen flex flex-col items-center p-4 transition-all duration-500">
+<body class="text-white p-6 mx-20">
 
-  <!-- Title -->
-  <h1 class="text-3xl font-bold mb-4">🌤 Weather App</h1>
-
-  <!-- Search Section -->
-  <div class="w-full max-w-md">
+  <!-- SEARCH -->
+  <div class="glass p-4 mb-6 max-w-xl mx-auto">
     <div class="flex gap-2">
-      <input id="cityInput" type="text" placeholder="Enter city..."
-        class="w-full p-2 rounded border outline-none"/>
+      <input id="cityInput" type="text" placeholder="Search city..."
+        class="w-full p-2 rounded bg-white/20 text-white placeholder-white outline-none" />
 
       <button id="searchBtn"
-        class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+        class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded">
+        Search
+      </button>
     </div>
 
-    <!-- Dropdown -->
-    <select id="recentCities"
-      class="mt-2 w-full p-2 border rounded hidden"></select>
+    <!-- DROPDOWN -->
+    <div id="dropdownContainer" class="hidden mt-2 glass">
+      <ul id="recentCities"></ul>
+    </div>
 
-    <!-- Error -->
-    <div id="errorBox"
-      class="text-red-500 mt-2 hidden"></div>
+    <!-- ERROR -->
+    <div id="errorBox" class="mt-2 text-red-300 hidden"></div>
   </div>
 
-  <!-- Current Weather -->
-  <div id="weatherCard"
-    class="mt-6 bg-white shadow-lg rounded-lg p-4 w-full max-w-md hidden">
+  <!-- MAIN GRID -->
+  <div class="grid lg:grid-cols-3 gap-6">
 
-    <h2 id="cityName" class="text-xl font-bold"></h2>
-    <p id="temp" class="text-3xl"></p>
-    <p id="condition"></p>
-    <p id="humidity"></p>
-    <p id="wind"></p>
+    <!-- LEFT CARD -->
+    <div class="glass p-6 col-span-2 relative overflow-hidden">
 
-    <!-- Toggle -->
-    <button id="toggleTemp"
-      class="mt-2 bg-gray-200 px-2 py-1 rounded">Toggle °C/°F</button>
+      <p class="text-lg opacity-70">📍 Location</p>
+      <h1 id="cityName" class="text-6xl font-bold">City</h1>
+      <p id="condition" class="opacity-80 mt-2">Weather condition</p>
 
-    <!-- Alert -->
-    <p id="alertBox" class="mt-2 text-red-600 font-bold hidden"></p>
+      <div class="mt-4">
+        <h2 id="temp" class="text-[120px] font-bold leading-none">--°</h2>
+
+        <div class="text-sm opacity-80 mt-2">
+          <p>H: <span id="high"></span>°</p>
+          <p>L: <span id="low"></span>°</p>
+          <p>Feels like: <span id="feels"></span>°</p>
+        </div>
+
+        <button id="toggleTemp"
+          class="mt-4 bg-white/20 px-3 py-1 rounded">
+          Switch to °F
+        </button>
+
+        <p id="alertBox" class="text-red-300 mt-2 hidden"></p>
+      </div>
+
+      <!-- ICON -->
+      <img id="weatherIcon"
+        class="absolute top-1/2 right-6 w-1/2 max-w-[320px] float-icon pointer-events-none opacity-90 drop-shadow-2xl" />
+    </div>
+
+    <!-- FORECAST -->
+    <div class="glass p-4">
+      <h2 class="text-lg mb-4">5-Day Forecast</h2>
+      <div id="forecastList" class="space-y-3"></div>
+    </div>
   </div>
 
-  <!-- Forecast -->
-  <div id="forecast"
-    class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full max-w-5xl">
+  <!-- EXTRA CARDS -->
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+
+    <div class="glass p-4">
+      <p>💨 Wind</p>
+      <h2 id="wind"></h2>
+    </div>
+
+    <div class="glass p-4">
+      <p>💧 Humidity</p>
+      <h2 id="humidity"></h2>
+    </div>
+
+    <div class="glass p-4">
+      <p>🌡 Pressure</p>
+      <h2 id="pressure"></h2>
+    </div>
+
+    <div class="glass p-4">
+      <p>👁 Visibility</p>
+      <h2 id="visibility"></h2>
+    </div>
+
   </div>
 
   <script src="script.js"></script>
