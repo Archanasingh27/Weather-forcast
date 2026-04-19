@@ -180,5 +180,26 @@ function displayForecast(list) {
 }
 
 
+//toggle temp button
+
+toggleBtn.addEventListener("click", () => {
+  if (currentTemp === null) return;
+
+  isCelsius = !isCelsius;
+
+  let temp = isCelsius
+    ? currentTemp
+    : (currentTemp * 9 / 5) + 32;
+
+  document.getElementById("temp").innerText =
+    `${temp.toFixed(1)}°${isCelsius ? "C" : "F"}`;
+
+  toggleBtn.innerText = isCelsius
+    ? "Switch to °F"
+    : "Switch to °C";
+});
+
+
+
 
 
