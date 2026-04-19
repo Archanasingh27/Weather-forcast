@@ -199,6 +199,16 @@ toggleBtn.addEventListener("click", () => {
     : "Switch to °C";
 });
 
+// Error handle 
+function showError(msg) {
+  errorBox.innerText = msg;
+  errorBox.classList.remove("hidden");
+}
+
+function hideError() {
+  errorBox.classList.add("hidden");
+}
+
 
 
 
