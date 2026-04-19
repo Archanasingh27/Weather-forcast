@@ -1,124 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>WeatherCast | Responsive Weather App</title>
 
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    body {
-      background: linear-gradient(180deg, #1e3c72, #8e689c, #e39241);
-    }
-
-    .glass {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    @keyframes float {
-      0%   { transform: translateY(-50%) translateY(0px); }
-      50%  { transform: translateY(-50%) translateY(-15px); }
-      100% { transform: translateY(-50%) translateY(0px); }
-    }
-
-    .float-icon {
-      animation: float 3s ease-in-out infinite;
-    }
-  </style>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="text-white p-6 mx-20">
-
-  <!-- SEARCH -->
-  <div class="glass p-4 mb-6 max-w-xl mx-auto">
-    <div class="flex gap-2">
-      <input id="cityInput" type="text" placeholder="Search city..."
-        class="w-full p-2 rounded bg-white/20 text-white placeholder-white outline-none" />
-
-      <button id="searchBtn"
-        class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded">
-        Search
-      </button>
-    </div>
-
-    <!-- DROPDOWN -->
-    <div id="dropdownContainer" class="hidden mt-2 glass">
-      <ul id="recentCities"></ul>
-    </div>
-
-    <!-- ERROR -->
-    <div id="errorBox" class="mt-2 text-red-300 hidden"></div>
-  </div>
-
-  <!-- MAIN GRID -->
-  <div class="grid lg:grid-cols-3 gap-6">
-
-    <!-- LEFT CARD -->
-    <div class="glass p-6 col-span-2 relative overflow-hidden">
-
-      <p class="text-lg opacity-70">📍 Location</p>
-      <h1 id="cityName" class="text-6xl font-bold">City</h1>
-      <p id="condition" class="opacity-80 mt-2">Weather condition</p>
-
-      <div class="mt-4">
-        <h2 id="temp" class="text-[120px] font-bold leading-none">--°</h2>
-
-        <div class="text-sm opacity-80 mt-2">
-          <p>H: <span id="high"></span>°</p>
-          <p>L: <span id="low"></span>°</p>
-          <p>Feels like: <span id="feels"></span>°</p>
+<body class="text-white p-4 sm:p-5 md:p-6 lg:p-8 xl:px-16 mx-auto min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header / Search Section -->
+    <div class="flex flex-col items-center justify-center mb-8">
+      <div class="relative w-full max-w-2xl">
+        <!-- SEARCH BAR with glass effect -->
+        <div class="flex items-center glass px-4 py-2.5 rounded-2xl shadow-lg">
+          <span class="text-xl mr-2">🔍</span>
+          <input id="cityInput" type="text" placeholder="Search city... "
+            class="w-full bg-transparent outline-none text-white text-base md:text-lg px-2 py-1 placeholder-white/60" />
+          <button id="searchBtn"
+            class="bg-white/20 hover:bg-white/30 transition-all px-5 py-2 rounded-xl font-semibold backdrop-blur-sm">
+            Search
+          </button>
         </div>
 
-        <button id="toggleTemp"
-          class="mt-4 bg-white/20 px-3 py-1 rounded">
-          Switch to °F
-        </button>
+        <!-- RECENT BUTTON  -->
+        <div id="recentBtn"
+          class="mt-3 hidden glass px-4 py-2.5 rounded-xl flex justify-between items-center cursor-pointer hover:bg-white/20 transition">
+          <span class="font-medium flex items-center gap-2">🕘 Recent Searches</span>
+          <span id="dropdownArrow" class="text-sm transition-transform">▼</span>
+        </div>
 
-        <p id="alertBox" class="text-red-300 mt-2 hidden"></p>
+        <!-- DROPDOWN panel -->
+        <div id="dropdownContainer"
+          class="absolute top-full left-0 w-full mt-2 glass rounded-2xl hidden z-50 overflow-hidden shadow-2xl">
+          <ul id="recentCities" class="max-h-60 overflow-y-auto py-2"></ul>
+        </div>
+
+        <!-- ERROR message -->
+        <div id="errorBox"
+          class="mt-3 text-red-200 bg-red-900/40 backdrop-blur-sm px-4 py-2 rounded-xl hidden text-sm font-medium">
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID-->
+    <div class="grid lg:grid-cols-3 gap-5 md:gap-6 mb-6">
+
+      <!-- LEFT MAIN CARD (weather details + icon) -->
+      <div class="glass p-5 md:p-7 col-span-2 relative overflow-hidden transition-all">
+        <div class="relative z-10">
+          <p class="text-sm md:text-base opacity-80 tracking-wide">📍 Current Location</p>
+          <h1 id="cityName" class="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-1 break-words">City</h1>
+          <p id="condition" class="opacity-90 mt-2 text-base md:text-lg capitalize">Weather condition</p>
+
+          <div class="mt-5">
+            <h2 id="temp" class="text-[80px] md:text-[100px] lg:text-[120px] font-bold leading-none tracking-tighter">
+              --°</h2>
+
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm md:text-base opacity-90 mt-3">
+              <p>📈 H: <span id="high" class="font-semibold">--</span>°</p>
+              <p>📉 L: <span id="low" class="font-semibold">--</span>°</p>
+              <p>🌡️ Feels like: <span id="feels" class="font-semibold">--</span>°</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 mt-6">
+              <button id="toggleTemp"
+                class="bg-white/25 hover:bg-white/35 px-5 py-2 rounded-xl text-sm font-medium transition shadow-md backdrop-blur-sm">
+                🌡️ Switch to °F
+              </button>
+              <p id="alertBox" class="text-amber-200 text-sm hidden bg-amber-800/30 px-3 py-1 rounded-full"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weather Icon (floating) -->
+        <img id="weatherIcon"
+          class="absolute top-1/2 -translate-y-1/2 right-3 md:right-6 w-28 md:w-44 lg:w-56 xl:w-64 float-icon pointer-events-none opacity-95 drop-shadow-2xl"
+          src="https://openweathermap.org/img/wn/10d@4x.png" alt="weather icon" />
       </div>
 
-      <!-- ICON -->
-      <img id="weatherIcon"
-        class="absolute top-1/2 right-6 w-1/2 max-w-[320px] float-icon pointer-events-none opacity-90 drop-shadow-2xl" />
+      <!-- RIGHT CARD: 5-day forecast -->
+      <div class="glass p-4 md:p-5 flex flex-col h-full">
+        <h2 class="text-lg md:text-xl font-semibold flex items-center gap-2 mb-3">
+          📅 5-Day Forecast
+        </h2>
+        <div id="forecastList" class="space-y-3 overflow-y-auto max-h-[420px] md:max-h-[450px] pr-1"></div>
+        <p id="forecastEmpty" class="text-center text-white/60 text-sm mt-4 hidden">No forecast data</p>
+      </div>
     </div>
 
-    <!-- FORECAST -->
-    <div class="glass p-4">
-      <h2 class="text-lg mb-4">5-Day Forecast</h2>
-      <div id="forecastList" class="space-y-3"></div>
+    <!-- EXTRA CARD-->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+      <div class="glass p-4 flex items-center gap-3 transition-all">
+        <div class="text-3xl">💨</div>
+        <div>
+          <p class="text-xs opacity-70">Wind Speed</p>
+          <h2 id="wind" class="text-xl font-bold">-- km/h</h2>
+        </div>
+      </div>
+      <div class="glass p-4 flex items-center gap-3">
+        <div class="text-3xl">💧</div>
+        <div>
+          <p class="text-xs opacity-70">Humidity</p>
+          <h2 id="humidity" class="text-xl font-bold">--%</h2>
+        </div>
+      </div>
+      <div class="glass p-4 flex items-center gap-3">
+        <div class="text-3xl">🌡️</div>
+        <div>
+          <p class="text-xs opacity-70">Pressure</p>
+          <h2 id="pressure" class="text-xl font-bold">-- hPa</h2>
+        </div>
+      </div>
+      <div class="glass p-4 flex items-center gap-3">
+        <div class="text-3xl">👁️</div>
+        <div>
+          <p class="text-xs opacity-70">Visibility</p>
+          <h2 id="visibility" class="text-xl font-bold">-- km</h2>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- EXTRA CARDS -->
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-
-    <div class="glass p-4">
-      <p>💨 Wind</p>
-      <h2 id="wind"></h2>
-    </div>
-
-    <div class="glass p-4">
-      <p>💧 Humidity</p>
-      <h2 id="humidity"></h2>
-    </div>
-
-    <div class="glass p-4">
-      <p>🌡 Pressure</p>
-      <h2 id="pressure"></h2>
-    </div>
-
-    <div class="glass p-4">
-      <p>👁 Visibility</p>
-      <h2 id="visibility"></h2>
-    </div>
-
-  </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
