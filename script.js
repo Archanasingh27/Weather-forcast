@@ -45,5 +45,33 @@ function handleSearch() {
 loadCities();
 recentBtn.classList.remove("hidden");
   
-
 }
+
+
+// fetch weather api
+
+async function getWeather(city) {
+  try {
+    hideError();
+
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+    );
+
+    const data = await res.json();
+
+    if (data.cod !== 200) {
+      showError("City not found");
+      return;
+    }
+
+    displayWeather(data);
+
+  } catch {
+    showError("Network error");
+  }
+}
+
+
+
+
