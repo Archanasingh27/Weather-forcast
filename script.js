@@ -105,8 +105,23 @@ function displayWeather(data) {
   document.getElementById("weatherIcon").src =
     `https://openweathermap.org/img/wn/${icon}@4x.png`;
 
+
+    //  DYNAMIC BACKGROUND
+  const condition = data.weather[0].main.toLowerCase();
+
+  if (condition.includes("rain")) {
+    document.body.style.background =
+      "linear-gradient(180deg, #4e54c8, #8f94fb)";
+  } else if (condition.includes("clear")) {
+    document.body.style.background =
+      "linear-gradient(180deg, #f7971e, #ffd200)";
+  } else if (condition.includes("cloud")) {
+    document.body.style.background =
+      "linear-gradient(180deg, #757f9a, #d7dde8)";
+  }
   
 }
+
 
 
 
